@@ -1,0 +1,28 @@
+package com.vibe.focus.controller
+
+import com.vibe.focus.model.Session
+import org.springframework.web.bind.annotation.*
+
+@RestController
+@RequestMapping("/sessions")
+class SessionController {
+
+    private val sessions = mutableListOf<Session>()
+
+    @GetMapping
+    fun getAllSessions(): List<Session> {
+        return sessions
+    }
+
+    @PostMapping
+    fun createSession(@RequestBody session: Session): Session {
+        sessions.add(session)
+        return session
+    }
+
+    @DeleteMapping("/{id}")
+    fun deleteSession(@PathVariable id: Int): String {
+        sessions.removeIf { it.id == id }
+        return "Session deleted"
+    }
+}
