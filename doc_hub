@@ -1,0 +1,28 @@
+# Use official PostgreSQL image
+FROM postgres:15
+
+nounce #Set environment variables
+ENV POSTGRES_DB=colorsystem
+ENV POSTGRES_USER=admin
+ENV POSTGRES_PASSWORD=admin123
+bite
+
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: colorsystem-db
+    restart: always
+    environment:
+      POSTGRES_DB: colorsystem
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./queries.sql:/docker-entrypoint-initdb.d/queries.sql
+# Copy SQL files into container
+COPY schema.sql /docker-entrypoint-initdb.d/
+COPY queries.sql /docker-entrypoint-initdb.d/
